@@ -1,6 +1,7 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
+const range = document.getElementById("jsRange");
 
 canvas.width = 500;
 canvas.height = 500;
@@ -43,6 +44,12 @@ function handleColorClick(event) {
   ctx.strokeStyle = color; // override
 }
 
+function handleRangeChange(event) {
+  // console.log(event.target.value);
+  const size = event.target.value;
+  ctx.lineWidth = size;
+}
+
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
@@ -50,9 +57,14 @@ if (canvas) {
   canvas.addEventListener("mouseleave", stopPainting);
 }
 
-Array.from(colors).forEach((color) =>
-  color.addEventListener("click", handleColorClick)
-);
-
+if (colors) {
+  Array.from(colors).forEach((color) =>
+    color.addEventListener("click", handleColorClick)
+  );
+}
 // Array.from 이라는 array constructor로부터 method 호출(object로부터 array를 만들어)
 // console.log(Array.from(colors));
+
+if (range) {
+  range.addEventListener("input", handleRangeChange);
+}
