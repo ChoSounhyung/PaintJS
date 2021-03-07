@@ -3,12 +3,16 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 500;
 
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
+
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -73,12 +77,26 @@ function handleCanvasClick() {
   }
 }
 
+function handleCM(event) {
+  event.preventDefault(); // 우클릭해도 context메뉴가 나타나지 않음 --> 사진 저장 못하게 하기 위해
+}
+
+function handleSaveClick() {
+  const image = canvas.toDataURL(); // toDataURL("image/jpeg"); --> 이렇게 하면 jpeg로 저장됨, default값은 png
+  const link = document.createElement("a");
+  link.href = image; // image의 URL
+  link.download = "PaintJS[🎨]"; // downloade는 저장될 image의 이름
+  // download는 anchor("a") 태그의 attribute
+  link.click();
+}
+
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", startPainting);
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("contextmenu", handleCM);
 }
 
 if (colors) {
@@ -95,4 +113,8 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+if (saveBtn) {
+  saveBtn.addEventListener("click", handleSaveClick);
 }
