@@ -1,5 +1,6 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
+const colors = document.getElementsByClassName("jsColor");
 
 canvas.width = 500;
 canvas.height = 500;
@@ -36,9 +37,10 @@ function onMouseMove(event) {
   }
 }
 
-function onMouseDown(event) {
-  // console.log(event);    마우스를 클릭할 때 출력됨
-  painting = true;
+function handleColorClick(event) {
+  // console.log(event.target.style);
+  const color = event.target.style.backgroundColor;
+  ctx.strokeStyle = color; // override
 }
 
 if (canvas) {
@@ -47,3 +49,10 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
 }
+
+Array.from(colors).forEach((color) =>
+  color.addEventListener("click", handleColorClick)
+);
+
+// Array.from 이라는 array constructor로부터 method 호출(object로부터 array를 만들어)
+// console.log(Array.from(colors));
